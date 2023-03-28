@@ -222,4 +222,11 @@ M.is_valid = function(path)
     and vim.fn.filereadable(path) == 1
 end
 
+-- absolute return the absolute path of a file
+-- @param path: string
+-- @return string
+M.absolute = function(path)
+  return vim.fn.fnamemodify(path, ":p")
+end
+
 return M

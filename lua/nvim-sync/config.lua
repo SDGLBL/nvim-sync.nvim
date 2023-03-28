@@ -3,6 +3,8 @@ local M = {}
 M.config = {
   -- sync_exe_filename default name of the sync executable
   sync_exe_filename = ".sync",
+  -- enable_paths
+  enable_paths = {},
   -- sync_exe_path path to the sync executable
   -- if not set, it will be searched in the project root path by default
   -- if not found, it will be searched in the system path
@@ -21,6 +23,12 @@ M.config = {
 
 M.init = function(params)
   M.config = vim.tbl_deep_extend("force", M.config, params or {})
+
+  if #M.config.enable_paths > 0 then
+    for i, path in ipairs(M.config.enable_paths) do
+      M.config.enable_paths[i] = vim.fn.fnamemodify(path, ":p:h")
+    end
+  end
 end
 
 return M

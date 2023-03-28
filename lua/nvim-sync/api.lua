@@ -23,8 +23,19 @@ local function exec(action, file_path)
 
   local project_root = utils.get_project_root()
 
+  local function set(list)
+    local s = {}
+    for _, l in ipairs(list) do
+      s[l] = true
+    end
+    return s
+  end
+
+  if #config.enable_paths > 0 and not set(config.enable_paths)[project_root] then
+    return
+  end
+
   if not project_root then
-    vim.notify("Project root not found", vim.log.levels.TRACE)
     return
   end
 
@@ -38,7 +49,7 @@ local function exec(action, file_path)
   end
 
   if not sync_exe_path then
-    vim.notify("Nvim-sync: No executable sync file found", vim.log.levels.INFO)
+    print "Nvim-sync: No executable sync file found"
     return
   end
 
