@@ -76,8 +76,10 @@ end
 -- @param filepath: string
 -- @return boolean
 M.upload = function()
-  local filepath = utils.get_file_path()
-  exec("upload", filepath)
+  vim.schedule(function()
+    local filepath = utils.get_file_path()
+    exec("upload", filepath)
+  end)
 end
 
 -- download a file from remote server
@@ -85,8 +87,10 @@ end
 -- @param filepath: string
 -- @return boolean
 M.download = function()
-  local filepath = utils.get_file_path()
-  exec("download", filepath)
+  vim.schedule(function()
+    local filepath = utils.get_file_path()
+    exec("download", filepath)
+  end)
 end
 
 M.init = function()
