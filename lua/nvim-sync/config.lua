@@ -3,8 +3,6 @@ local M = {}
 M.config = {
 	-- sync_exe_filename default name of the sync executable
 	sync_exe_filename = ".sync",
-	-- sync_type ftp support only
-	sync_type = "ftp",
 	-- sync_exe_path path to the sync executable
 	-- if not set, it will be searched in the project root path by default
 	-- if not found, it will be searched in the system path

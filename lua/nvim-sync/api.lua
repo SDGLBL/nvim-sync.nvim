@@ -4,37 +4,27 @@ local utils = require("nvim-sync.utils")
 local config = require("nvim-sync.config").config
 local job = require("plenary.job")
 
-local function check_ftp_upload(filepath)
-	if vim.fn.executable("ncftpput") == 0 then
-		vim.notify("ncftpput not found", vim.log.levels.ERROR)
-		return false
-	end
-
-	if vim.fn.executable("ncftpget") == 0 then
-		vim.notify("ncftpget not found", vim.log.levels.ERROR)
-		return false
-	end
-
-	if not utils.is_valid(filepath) then
-		vim.notify("Invalid file path" .. filepath, vim.log.levels.TRACE)
+local function check_file_path(file_path)
+	if not utils.is_valid(file_path) then
+		vim.notify("Invalid file path" .. file_path, vim.log.levels.TRACE)
 		return false
 	end
 
 	return true
 end
 
--- ftp Uploads a file to a remote server using ftp
+-- exec upload or download a file to a remote server using given sync executable
 -- @param action: string (upload|download)
 -- @param filepath: string
-local function ftp(action, file_path)
-	if not check_ftp_upload(file_path) then
+local function exec(action, file_path)
+	if not check_file_path(file_path) then
 		return
 	end
 
 	local project_root = utils.get_project_root()
 
 	if not project_root then
-		vim.notify("Project root not found", vim.log.levels.ERROR)
+		vim.notify("Project root not found", vim.log.levels.TRACE)
 		return
 	end
 
@@ -73,12 +63,8 @@ end
 -- @param filepath: string
 -- @return boolean
 M.upload = function()
-	local type = config.sync_type
 	local filepath = utils.get_file_path()
-
-	if type == "ftp" then
-		ftp("upload", filepath)
-	end
+	exec("upload", filepath)
 end
 
 -- download a file from remote server
@@ -86,12 +72,8 @@ end
 -- @param filepath: string
 -- @return boolean
 M.download = function()
-	local type = config.sync_type
 	local filepath = utils.get_file_path()
-
-	if type == "ftp" then
-		ftp("download", filepath)
-	end
+	exec("download", filepath)
 end
 
 M.init = function()
