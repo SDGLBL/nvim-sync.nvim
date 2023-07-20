@@ -19,6 +19,8 @@ M.config = {
   -- Table of lsp clients to ignore by name
   -- eg: { "efm", ... }
   ignore_lsp = {},
+  -- log
+  log = false,
 }
 
 M.init = function(params)
